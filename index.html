@@ -1,223 +1,401 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PreventID | The Future of Health Identity</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
-        
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #030712; color: white; overflow-x: hidden; }
-
-        .gradient-text {
-            background: linear-gradient(90deg, #3b82f6, #2dd4bf, #3b82f6);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shine 3s linear infinite;
-        }
-
-        @keyframes shine { to { background-position: 200% center; } }
-
-        .glass {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .scan-line {
-            width: 100%;
-            height: 2px;
-            background: #3b82f6;
-            box-shadow: 0 0 15px #3b82f6;
-            position: absolute;
-            top: 0;
-            left: 0;
-            animation: scan 3s ease-in-out infinite;
-        }
-
-        @keyframes scan {
-            0%, 100% { top: 0%; opacity: 0; }
-            50% { top: 100%; opacity: 1; }
-        }
-
-        .floating { animation: float 6s ease-in-out infinite; }
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-
-        .blob {
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(3, 7, 18, 0) 70%);
-            border-radius: 50%;
-            z-index: -1;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PreventID — Your Verified Health Identity</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--jade:#00C896;--jade-dark:#009E76;--midnight:#070D12;--deep:#0D1B25;--card:#101E2A;--border:#1A2E3E;--bright:#EFF6FF;--mid:#7FA2BA;--dim:#3D5F78;--coral:#FF6060;--gold:#F5C518;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--midnight);color:var(--bright);font-family:'Outfit',sans-serif;overflow-x:hidden;}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9000;opacity:.3;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E");}
+.grid-bg{position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(0,200,150,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,150,.035) 1px,transparent 1px);background-size:56px 56px;animation:gridDrift 25s linear infinite;}
+@keyframes gridDrift{to{background-position:0 56px;}}
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:18px 60px;background:rgba(7,13,18,.88);backdrop-filter:blur(18px);border-bottom:1px solid var(--border);}
+.logo{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:600;letter-spacing:.02em;}
+.logo span{color:var(--jade);}
+.nav-links{display:flex;gap:34px;list-style:none;}
+.nav-links a{font-size:.78rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--jade);}
+.btn-nav{background:var(--jade);color:var(--midnight);padding:9px 20px;border-radius:6px;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;transition:all .2s;}
+.btn-nav:hover{background:#00E6AC;box-shadow:0 6px 22px rgba(0,200,150,.35);transform:translateY(-1px);}
+.hero{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:130px 40px 80px;overflow:hidden;}
+.hero-glow{position:absolute;width:760px;height:760px;border-radius:50%;background:radial-gradient(circle,rgba(0,200,150,.13) 0%,transparent 68%);top:50%;left:50%;transform:translate(-50%,-55%);pointer-events:none;}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,200,150,.08);border:1px solid rgba(0,200,150,.28);padding:5px 16px;border-radius:100px;font-family:'DM Mono',monospace;font-size:.7rem;color:var(--jade);letter-spacing:.1em;text-transform:uppercase;margin-bottom:26px;animation:fadeUp .7s ease both;}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--jade);animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(3.2rem,7vw,7rem);font-weight:300;line-height:1.05;margin-bottom:10px;animation:fadeUp .7s .1s ease both;}
+.hero h1 em{font-style:italic;color:var(--jade);}
+.hero h1 .grad{display:block;background:linear-gradient(120deg,var(--bright) 30%,var(--jade));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hero-sub{font-size:1.05rem;font-weight:300;color:var(--mid);max-width:540px;line-height:1.75;margin-bottom:42px;animation:fadeUp .7s .2s ease both;}
+.hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;animation:fadeUp .7s .3s ease both;}
+.btn-primary{background:var(--jade);color:var(--midnight);padding:14px 30px;border-radius:8px;font-size:.9rem;font-weight:700;text-decoration:none;transition:all .2s;border:none;cursor:pointer;font-family:'Outfit',sans-serif;}
+.btn-primary:hover{background:#00E6AC;box-shadow:0 10px 30px rgba(0,200,150,.4);transform:translateY(-2px);}
+.btn-ghost{border:1px solid var(--border);color:var(--mid);background:transparent;padding:14px 30px;border-radius:8px;font-size:.9rem;font-weight:500;text-decoration:none;transition:all .2s;cursor:pointer;}
+.btn-ghost:hover{border-color:var(--jade);color:var(--jade);}
+.stats{position:relative;z-index:1;display:flex;justify-content:center;max-width:860px;margin:60px auto 0;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:var(--card);animation:fadeUp .7s .5s ease both;}
+.stat-item{flex:1;min-width:180px;padding:28px 24px;text-align:center;border-right:1px solid var(--border);}
+.stat-item:last-child{border-right:none;}
+.stat-num{font-family:'Cormorant Garamond',serif;font-size:2.6rem;font-weight:600;color:var(--jade);line-height:1;}
+.stat-label{font-size:.78rem;color:var(--mid);margin-top:6px;}
+section{position:relative;z-index:1;}
+.section-wrap{max-width:1100px;margin:0 auto;padding:100px 40px;}
+.section-eyebrow{font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--jade);margin-bottom:14px;}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,4vw,3.6rem);font-weight:300;line-height:1.15;margin-bottom:20px;}
+.section-title em{font-style:italic;color:var(--jade);}
+.section-body{font-size:1rem;color:var(--mid);line-height:1.75;max-width:560px;}
+.problem-section{background:linear-gradient(180deg,var(--midnight) 0%,var(--deep) 100%);}
+.problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+.chaos-visual{position:relative;height:340px;}
+.chaos-card{position:absolute;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 18px;font-size:.82rem;color:var(--mid);white-space:nowrap;box-shadow:0 8px 32px rgba(0,0,0,.4);}
+.chaos-card.c1{top:0;left:10%;animation:float1 6s ease-in-out infinite;}
+.chaos-card.c2{top:20px;right:5%;animation:float2 7s ease-in-out infinite;}
+.chaos-card.c3{top:110px;left:0;animation:float1 5s 1s ease-in-out infinite;}
+.chaos-card.c4{top:140px;right:15%;animation:float2 8s .5s ease-in-out infinite;}
+.chaos-card.c5{bottom:60px;left:20%;animation:float1 6.5s .3s ease-in-out infinite;}
+.chaos-card.c6{bottom:20px;right:0;animation:float2 5.5s .8s ease-in-out infinite;}
+@keyframes float1{0%,100%{transform:rotate(-3deg) translateY(0);}50%{transform:rotate(-3deg) translateY(-8px);}}
+@keyframes float2{0%,100%{transform:rotate(3deg) translateY(0);}50%{transform:rotate(3deg) translateY(-10px);}}
+.highlight{color:var(--coral);font-weight:600;}
+.features-section{background:var(--midnight);}
+.features-header{text-align:center;margin-bottom:64px;}
+.features-header .section-body{max-width:480px;margin:0 auto;}
+.features-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;}
+.feat-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:36px;transition:all .3s;position:relative;overflow:hidden;}
+.feat-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,200,150,.05),transparent);opacity:0;transition:opacity .3s;}
+.feat-card:hover{border-color:rgba(0,200,150,.4);transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.4);}
+.feat-card:hover::before{opacity:1;}
+.feat-icon{width:48px;height:48px;border-radius:10px;background:rgba(0,200,150,.1);border:1px solid rgba(0,200,150,.2);display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:20px;}
+.feat-title{font-size:1.1rem;font-weight:600;margin-bottom:10px;}
+.feat-body{font-size:.88rem;color:var(--mid);line-height:1.7;}
+.feat-tag{display:inline-block;margin-top:14px;font-family:'DM Mono',monospace;font-size:.68rem;color:var(--jade);background:rgba(0,200,150,.08);border:1px solid rgba(0,200,150,.2);padding:3px 10px;border-radius:100px;letter-spacing:.08em;}
+.how-section{background:linear-gradient(180deg,var(--midnight) 0%,var(--deep) 100%);}
+.steps{display:flex;flex-direction:column;max-width:720px;margin:0 auto;}
+.step{display:flex;gap:28px;padding:36px 0;border-bottom:1px solid var(--border);}
+.step:last-child{border-bottom:none;}
+.step-num{font-family:'DM Mono',monospace;font-size:.72rem;color:var(--jade);background:rgba(0,200,150,.08);border:1px solid rgba(0,200,150,.25);width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:4px;}
+.step-title{font-size:1.1rem;font-weight:600;margin-bottom:8px;}
+.step-body{font-size:.9rem;color:var(--mid);line-height:1.7;}
+.compare-section{background:var(--midnight);}
+.compare-table{width:100%;border-collapse:collapse;border-radius:14px;overflow:hidden;margin-top:48px;}
+.compare-table th{padding:16px 24px;font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;}
+.compare-table th:first-child{text-align:left;color:var(--dim);}
+.compare-table th:nth-child(2){background:rgba(255,255,255,.03);color:var(--mid);}
+.compare-table th:nth-child(3){background:rgba(0,200,150,.08);color:var(--jade);}
+.compare-table td{padding:16px 24px;font-size:.9rem;border-top:1px solid var(--border);}
+.compare-table td:first-child{color:var(--mid);font-weight:500;}
+.compare-table td:nth-child(2){background:rgba(255,255,255,.02);color:var(--dim);}
+.compare-table td:nth-child(3){background:rgba(0,200,150,.04);color:var(--bright);}
+.check{color:var(--jade);}
+.cross{color:var(--dim);}
+.tailwinds-section{background:linear-gradient(180deg,var(--midnight) 0%,#0A1520 100%);}
+.tailwinds-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px;}
+.tw-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:32px;position:relative;overflow:hidden;}
+.tw-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--jade),transparent);}
+.tw-num{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:600;color:rgba(0,200,150,.15);line-height:1;margin-bottom:8px;}
+.tw-title{font-size:1rem;font-weight:600;margin-bottom:10px;}
+.tw-body{font-size:.88rem;color:var(--mid);line-height:1.7;}
+.audience-section{background:var(--midnight);}
+.audience-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px;}
+.aud-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:28px;text-align:center;transition:all .3s;}
+.aud-card:hover{border-color:rgba(0,200,150,.35);transform:translateY(-4px);}
+.aud-icon{font-size:2.2rem;margin-bottom:16px;}
+.aud-title{font-size:1rem;font-weight:600;margin-bottom:8px;}
+.aud-body{font-size:.85rem;color:var(--mid);line-height:1.65;}
+.compliance-strip{background:var(--deep);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:28px 40px;position:relative;z-index:1;}
+.compliance-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:40px;flex-wrap:wrap;}
+.compliance-item{display:flex;align-items:center;gap:10px;font-size:.82rem;color:var(--mid);}
+.compliance-item span{font-weight:600;color:var(--bright);}
+.comp-badge{width:7px;height:7px;border-radius:50%;background:var(--jade);}
+.cta-section{background:linear-gradient(180deg,var(--midnight) 0%,var(--deep) 60%,var(--midnight) 100%);text-align:center;}
+.cta-wrap{position:relative;overflow:hidden;border:1px solid var(--border);border-radius:20px;padding:80px 40px;background:var(--card);}
+.cta-wrap::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:600px;height:400px;background:radial-gradient(ellipse,rgba(0,200,150,.1) 0%,transparent 70%);pointer-events:none;}
+.cta-section .section-body{margin:0 auto 40px;max-width:500px;}
+.waitlist-form{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;max-width:480px;margin:0 auto 20px;}
+.waitlist-form input{flex:1;min-width:220px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:8px;padding:13px 18px;font-size:.9rem;color:var(--bright);font-family:'Outfit',sans-serif;outline:none;transition:border .2s;}
+.waitlist-form input::placeholder{color:var(--dim);}
+.waitlist-form input:focus{border-color:var(--jade);}
+.waitlist-note{font-size:.78rem;color:var(--dim);}
+.waitlist-note strong{color:var(--gold);}
+.early-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(245,197,24,.08);border:1px solid rgba(245,197,24,.25);padding:6px 16px;border-radius:100px;font-size:.78rem;color:var(--gold);margin-bottom:28px;}
+footer{position:relative;z-index:1;background:var(--midnight);border-top:1px solid var(--border);padding:48px 60px 32px;}
+.footer-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-start;gap:40px;flex-wrap:wrap;}
+.footer-logo{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;}
+.footer-logo span{color:var(--jade);}
+.footer-tagline{font-size:.82rem;color:var(--dim);margin-top:6px;max-width:220px;line-height:1.6;}
+.footer-links h4{font-size:.75rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:14px;}
+.footer-links ul{list-style:none;display:flex;flex-direction:column;gap:9px;}
+.footer-links a{font-size:.85rem;color:var(--mid);text-decoration:none;transition:color .2s;}
+.footer-links a:hover{color:var(--jade);}
+.footer-bottom{max-width:1100px;margin:40px auto 0;padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.footer-bottom p{font-size:.78rem;color:var(--dim);}
+.mono{font-family:'DM Mono',monospace;color:var(--jade);font-size:.72rem;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+@media(max-width:768px){
+  nav{padding:16px 24px;}
+  .nav-links{display:none;}
+  .section-wrap{padding:70px 24px;}
+  .problem-grid,.features-grid,.tailwinds-grid,.audience-grid{grid-template-columns:1fr;}
+  .stats{flex-direction:column;}
+  .stat-item{border-right:none;border-bottom:1px solid var(--border);}
+  footer{padding:40px 24px 24px;}
+  .footer-inner{flex-direction:column;}
+  .chaos-visual{height:260px;}
+}
+</style>
 </head>
 <body>
-
-    <div class="blob" style="top: -10%; left: -10%;"></div>
-    <div class="blob" style="bottom: 10%; right: -10%;"></div>
-
-    <nav class="fixed w-full z-50 px-6 py-6 transition-all duration-300" id="navbar">
-        <div class="max-w-7xl mx-auto flex justify-between items-center glass rounded-2xl px-6 py-3">
-            <div class="flex items-center space-x-2">
-                <div class="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
-                    <i class="fas fa-fingerprint text-white"></i>
-                </div>
-                <span class="text-xl font-extrabold tracking-tighter">PreventID</span>
-            </div>
-            <div class="hidden md:flex space-x-8 text-sm font-semibold text-gray-400">
-                <a href="#" class="hover:text-blue-400 transition">Technology</a>
-                <a href="#" class="hover:text-blue-400 transition">Insurance Partners</a>
-                <a href="#" class="hover:text-blue-400 transition">Security</a>
-            </div>
-            <a href="#waitlist" class="bg-white text-black px-6 py-2 rounded-xl font-bold hover:bg-blue-500 hover:text-white transition-all transform hover:scale-105">
-                Join Waitlist
-            </a>
-        </div>
-    </nav>
-
-    <section class="relative pt-40 pb-20 px-6">
-        <div class="max-w-5xl mx-auto text-center">
-            <div class="inline-flex items-center space-x-2 glass px-4 py-2 rounded-full mb-8 border-blue-500/30">
-                <span class="relative flex h-3 w-3">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
-                </span>
-                <span class="text-xs font-bold tracking-widest uppercase">Verified Health Identity</span>
-            </div>
-            
-            <h1 class="text-5xl md:text-8xl font-extrabold mb-8 leading-[0.9] tracking-tighter" id="hero-title">
-                India's First <span class="gradient-text">Verified</span> <br>Health Passport.
-            </h1>
-
-            <div class="grid md:grid-cols-2 gap-12 items-center mt-20">
-                <div class="text-left space-y-6" id="hero-left">
-                    <div class="text-6xl font-extrabold text-blue-500" id="counter">0</div>
-                    <p class="text-2xl font-bold text-gray-300">Insured Indians. <span class="text-white">Zero unified records.</span></p>
-                    <p class="text-gray-400 leading-relaxed text-lg">
-                        PreventID bridges the gap between fragmented lab reports and verified medical history. Aggregated, encrypted, and owned by you.
-                    </p>
-                </div>
-
-                <div class="relative mx-auto w-64 h-[500px] glass rounded-[3rem] p-4 border-white/20 floating shadow-2xl overflow-hidden" id="hero-right">
-                    <div class="scan-line"></div>
-                    <div class="w-full h-full bg-slate-900 rounded-[2.5rem] p-6 space-y-6">
-                        <div class="flex justify-between items-center">
-                            <i class="fas fa-bars text-gray-500"></i>
-                            <div class="w-8 h-8 rounded-full bg-blue-600"></div>
-                        </div>
-                        <div class="space-y-2">
-                            <div class="h-4 w-24 bg-gray-800 rounded"></div>
-                            <div class="h-8 w-40 bg-white rounded"></div>
-                        </div>
-                        <div class="p-4 bg-blue-600/20 border border-blue-500/30 rounded-2xl space-y-2">
-                            <div class="flex justify-between text-[10px] font-bold">
-                                <span>CARDIAC STATUS</span>
-                                <span class="text-blue-400">VERIFIED</span>
-                            </div>
-                            <div class="h-2 w-full bg-blue-500 rounded-full"></div>
-                        </div>
-                        <div class="space-y-4">
-                            <div class="flex items-center space-x-3">
-                                <div class="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-500"><i class="fas fa-check"></i></div>
-                                <div class="h-3 w-24 bg-gray-800 rounded"></div>
-                            </div>
-                            <div class="flex items-center space-x-3">
-                                <div class="w-8 h-8 rounded-lg bg-red-500/20 flex items-center justify-center text-red-500"><i class="fas fa-clock"></i></div>
-                                <div class="h-3 w-32 bg-gray-800 rounded"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-24 px-6 bg-[#050a18]">
-        <div class="max-w-7xl mx-auto">
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="feature-card glass p-8 rounded-3xl hover:bg-white/5 transition group cursor-pointer">
-                    <i class="fas fa-qrcode text-4xl text-blue-500 mb-6 group-hover:scale-110 transition"></i>
-                    <h3 class="text-2xl font-bold mb-4">One-Tap Share</h3>
-                    <p class="text-gray-400">Generated verified summaries for doctors in seconds. No more carrying files.</p>
-                </div>
-                <div class="feature-card glass p-8 rounded-3xl hover:bg-white/5 transition group cursor-pointer">
-                    <i class="fas fa-shield-halved text-4xl text-teal-400 mb-6 group-hover:scale-110 transition"></i>
-                    <h3 class="text-2xl font-bold mb-4">DPDPA 2023 Ready</h3>
-                    <p class="text-gray-400">Your data is yours. We use zero-knowledge architecture to ensure privacy.</p>
-                </div>
-                <div class="feature-card glass p-8 rounded-3xl hover:bg-white/5 transition group cursor-pointer">
-                    <i class="fas fa-microscope text-4xl text-purple-500 mb-6 group-hover:scale-110 transition"></i>
-                    <h3 class="text-2xl font-bold mb-4">Risk Profiling</h3>
-                    <p class="text-gray-400">AI-driven insights that cross-reference ICMR guidelines with your history.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="waitlist" class="py-32 px-6 text-center relative overflow-hidden">
-        <div class="max-w-3xl mx-auto glass p-12 md:p-20 rounded-[4rem] border-blue-500/20">
-            <h2 class="text-4xl md:text-6xl font-extrabold mb-6">Claim Your Identity.</h2>
-            <p class="text-gray-400 text-lg mb-10">First 500 users unlock lifetime Pro features. Be the first to close the gap.</p>
-            <form class="flex flex-col md:flex-row gap-4">
-                <input type="email" placeholder="name@company.com" class="flex-1 bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-blue-500 text-lg">
-                <button class="bg-blue-600 hover:bg-blue-500 text-white px-10 py-4 rounded-2xl font-bold text-lg transition-all shadow-lg shadow-blue-500/20">
-                    Get Priority Access
-                </button>
-            </form>
-        </div>
-    </section>
-
-    <script>
-        // GSAP Animations
-        gsap.registerPlugin(ScrollTrigger);
-
-        // Hero Text Entrance
-        gsap.from("#hero-title", { opacity: 0, y: 50, duration: 1, ease: "power4.out" });
-        gsap.from("#hero-left", { opacity: 0, x: -50, duration: 1, delay: 0.3, ease: "power4.out" });
-        gsap.from("#hero-right", { opacity: 0, x: 50, duration: 1, delay: 0.5, ease: "power4.out" });
-
-        // Counter Animation
-        let obj = { value: 0 };
-        gsap.to(obj, {
-            value: 500,
-            duration: 2,
-            scrollTrigger: "#counter",
-            onUpdate: () => {
-                document.getElementById("counter").innerHTML = Math.floor(obj.value) + "M";
-            }
-        });
-
-        // Feature Card Entrance
-        gsap.from(".feature-card", {
-            scrollTrigger: ".feature-card",
-            y: 100,
-            opacity: 0,
-            stagger: 0.2,
-            duration: 1,
-            ease: "power3.out"
-        });
-
-        // Navbar Blur on Scroll
-        window.addEventListener('scroll', () => {
-            const nav = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                nav.classList.add('py-2');
-                nav.classList.remove('py-6');
-            } else {
-                nav.classList.add('py-6');
-                nav.classList.remove('py-2');
-            }
-        });
-    </script>
+<div class="grid-bg"></div>
+ 
+<nav>
+  <div class="logo">Prevent<span>ID</span></div>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#howitworks">How It Works</a></li>
+    <li><a href="#why">Why Now</a></li>
+    <li><a href="#waitlist">Early Access</a></li>
+  </ul>
+  <a href="#waitlist" class="btn-nav">Join Waitlist</a>
+</nav>
+ 
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="badge"><span class="badge-dot"></span>Launching Q2 2026 · India</div>
+  <h1>India's<br><em>Verified</em> <span class="grad">Health Identity.</span></h1>
+  <p class="hero-sub">500 million insured Indians. Zero unified preventive health record. PreventID is the persistent, portable Health Passport that travels with you — verified, structured, always accessible.</p>
+  <div class="hero-actions">
+    <a href="#waitlist" class="btn-primary">Get Early Access →</a>
+    <a href="#features" class="btn-ghost">See How It Works</a>
+  </div>
+  <div class="stats">
+    <div class="stat-item"><div class="stat-num">500M+</div><div class="stat-label">Insured Indians, zero unified records</div></div>
+    <div class="stat-item"><div class="stat-num">10,000</div><div class="stat-label">Early access waitlist target</div></div>
+    <div class="stat-item"><div class="stat-num">500</div><div class="stat-label">Lifetime Pro spots available</div></div>
+    <div class="stat-item"><div class="stat-num">ABDM</div><div class="stat-label">Native ecosystem integration</div></div>
+  </div>
+</section>
+ 
+<section class="problem-section" id="problem">
+  <div class="section-wrap">
+    <div class="problem-grid">
+      <div class="problem-text reveal">
+        <div class="section-eyebrow">The Problem</div>
+        <h2 class="section-title">Your health history is <em>everywhere</em> and nowhere.</h2>
+        <p class="section-body" style="margin-bottom:20px;">Right now, your medical records live across WhatsApp forwards, Gmail attachments, a crumpled folder at home, and three lab portals you forgot the password to.</p>
+        <p class="section-body">When you see a new specialist or renew health insurance, your history gets <span class="highlight">guessed</span> — or ignored. In a high-stakes scenario, that gap costs you.</p>
+      </div>
+      <div class="chaos-visual reveal">
+        <div class="chaos-card c1">💬 CBC report on WhatsApp</div>
+        <div class="chaos-card c2">📧 Lipid panel PDF in Gmail</div>
+        <div class="chaos-card c3">🗂️ 2021 X-ray in the drawer</div>
+        <div class="chaos-card c4">🔬 Thyroid test on lab portal</div>
+        <div class="chaos-card c5">📋 Prescription photo on phone</div>
+        <div class="chaos-card c6">❓ Doctor: any past issues?</div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<section class="features-section" id="features">
+  <div class="section-wrap">
+    <div class="features-header reveal">
+      <div class="section-eyebrow">Product Features</div>
+      <h2 class="section-title">Not a locker. An active <em>health suite.</em></h2>
+      <p class="section-body">PreventID goes beyond storage — it aggregates, analyzes, alerts, and presents your health data as a verified, portable identity layer.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feat-card reveal">
+        <div class="feat-icon">🔗</div>
+        <div class="feat-title">Universal Aggregator</div>
+        <p class="feat-body">Automatically pulls and organizes your screening history from diagnostic labs, clinics, hospitals, and wearables through API integrations. No manual uploads, no lost reports.</p>
+        <span class="feat-tag">AUTO-SYNC</span>
+      </div>
+      <div class="feat-card reveal">
+        <div class="feat-icon">🧬</div>
+        <div class="feat-title">ICMR-Aligned Smart Alerts</div>
+        <p class="feat-body">Cross-references your age, gender, and risk profile against ICMR guidelines to surface exactly which screenings — cardiac, cancer, metabolic — are overdue for you specifically.</p>
+        <span class="feat-tag">PERSONALIZED</span>
+      </div>
+      <div class="feat-card reveal">
+        <div class="feat-icon">✅</div>
+        <div class="feat-title">One-Tap Verified Summary</div>
+        <p class="feat-body">Generate a cryptographically-verified summary of your health history in seconds. Share a secure link with providers or insurers instead of hunting through folders of raw PDFs.</p>
+        <span class="feat-tag">VERIFIED</span>
+      </div>
+      <div class="feat-card reveal">
+        <div class="feat-icon">🛡️</div>
+        <div class="feat-title">Privacy-First Architecture</div>
+        <p class="feat-body">Built ground-up for DPDPA 2023 compliance with full integration into the Ayushman Bharat Digital Mission (ABDM) ecosystem. Your data stays yours — portable, consent-based, sovereign.</p>
+        <span class="feat-tag">DPDPA · ABDM</span>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<section class="how-section" id="howitworks">
+  <div class="section-wrap">
+    <div style="text-align:center;margin-bottom:56px;" class="reveal">
+      <div class="section-eyebrow">How It Works</div>
+      <h2 class="section-title">From scattered records to a <em>living passport.</em></h2>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">01</div>
+        <div><div class="step-title">Create Your Health Identity</div><p class="step-body">Link your Ayushman Bharat Health Account (ABHA) to activate your PreventID. Your verified digital health ID becomes the anchor for all future records.</p></div>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">02</div>
+        <div><div class="step-title">Connect Your Data Sources</div><p class="step-body">Authorize connected labs, clinics, and wearables. PreventID automatically aggregates historical and ongoing data — from SRL and Thyrocare to Apollo and your fitness tracker.</p></div>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">03</div>
+        <div><div class="step-title">Get Intelligent Alerts</div><p class="step-body">The system builds your risk profile and flags overdue screenings aligned to ICMR guidelines. Know exactly what you need — cardiac markers at 40, colonoscopy at 45 — before your doctor has to ask.</p></div>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">04</div>
+        <div><div class="step-title">Share. Confidently.</div><p class="step-body">At any touchpoint — new hospital, insurance renewal, or corporate wellness program — generate a verified summary link. One tap. Structured data. Trusted by providers.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<section class="compare-section">
+  <div class="section-wrap">
+    <div class="reveal" style="text-align:center;">
+      <div class="section-eyebrow">Why PreventID</div>
+      <h2 class="section-title">A different <em>category</em> entirely.</h2>
+    </div>
+    <table class="compare-table reveal">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Traditional Health Apps</th>
+          <th>⚡ PreventID</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Data Collection</td><td><span class="cross">✗</span> Manual PDF uploads</td><td><span class="check">✓</span> Automatic API aggregation</td></tr>
+        <tr><td>Identity Layer</td><td><span class="cross">✗</span> Isolated app account</td><td><span class="check">✓</span> Persistent, portable passport</td></tr>
+        <tr><td>Health Guidance</td><td><span class="cross">✗</span> Generic tips &amp; articles</td><td><span class="check">✓</span> ICMR-aligned risk alerts</td></tr>
+        <tr><td>Sharing</td><td><span class="cross">✗</span> Sending raw files</td><td><span class="check">✓</span> One-tap verified summary</td></tr>
+        <tr><td>Compliance</td><td><span class="cross">✗</span> Variable / unclear</td><td><span class="check">✓</span> DPDPA 2023 + ABDM native</td></tr>
+        <tr><td>Insurance Integration</td><td><span class="cross">✗</span> Not structured for underwriting</td><td><span class="check">✓</span> Verified wellness data layer</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+ 
+<section class="tailwinds-section" id="why">
+  <div class="section-wrap">
+    <div class="reveal" style="text-align:center;">
+      <div class="section-eyebrow">Market Timing</div>
+      <h2 class="section-title">A <em>once-in-a-decade</em> market window.</h2>
+      <p class="section-body" style="margin:0 auto;">Three converging forces make 2026 the inflection point for preventive health data in India.</p>
+    </div>
+    <div class="tailwinds-grid reveal">
+      <div class="tw-card"><div class="tw-num">01</div><div class="tw-title">Regulatory Shift</div><p class="tw-body">DPDPA 2023 enforcement mandates structured, consent-based health data handling — creating urgency and a compliance moat for early movers like PreventID.</p></div>
+      <div class="tw-card"><div class="tw-num">02</div><div class="tw-title">Digital Infrastructure</div><p class="tw-body">ABDM is laying the rails for a national health data ecosystem. PreventID plugs natively into this infrastructure at launch — not as an afterthought.</p></div>
+      <div class="tw-card"><div class="tw-num">03</div><div class="tw-title">Insurance Penetration</div><p class="tw-body">As more Indians enter the insured market, demand for portable, verified wellness data for underwriting and claims processing is accelerating rapidly.</p></div>
+    </div>
+  </div>
+</section>
+ 
+<section class="audience-section">
+  <div class="section-wrap">
+    <div class="reveal" style="text-align:center;">
+      <div class="section-eyebrow">Who It's For</div>
+      <h2 class="section-title">Built for <em>three critical stakeholders.</em></h2>
+    </div>
+    <div class="audience-grid reveal">
+      <div class="aud-card"><div class="aud-icon">👤</div><div class="aud-title">Urban Individuals</div><p class="aud-body">Health-conscious Indians who want their preventive history organized, actionable, and ready to share — without the chaos of scattered records.</p></div>
+      <div class="aud-card"><div class="aud-icon">🏢</div><div class="aud-title">HR &amp; Corporate Wellness</div><p class="aud-body">HR leaders running corporate wellness programs who need a structured, verified layer for employee health data — not another spreadsheet.</p></div>
+      <div class="aud-card"><div class="aud-icon">🏦</div><div class="aud-title">Insurance Companies</div><p class="aud-body">Insurers who benefit from verified wellness data for accurate underwriting, faster claims, and incentivizing proactive health behavior.</p></div>
+    </div>
+  </div>
+</section>
+ 
+<div class="compliance-strip">
+  <div class="compliance-inner">
+    <div class="compliance-item"><span class="comp-badge"></span><span>DPDPA 2023</span> Compliant</div>
+    <div class="compliance-item"><span class="comp-badge"></span><span>ABDM</span> Native Integration</div>
+    <div class="compliance-item"><span class="comp-badge"></span><span>ICMR</span> Guideline-Aligned</div>
+    <div class="compliance-item"><span class="comp-badge"></span><span>ABHA</span> Linked Identity</div>
+    <div class="compliance-item"><span class="comp-badge"></span>End-to-End <span>Encrypted</span></div>
+  </div>
+</div>
+ 
+<section class="cta-section" id="waitlist">
+  <div class="section-wrap">
+    <div class="cta-wrap reveal">
+      <div class="early-badge">🏅 First 500 users · Lifetime Pro Access</div>
+      <h2 class="section-title">Be first. Be <em>protected.</em></h2>
+      <p class="section-body">Join the 10,000-person early access waitlist. The first 500 users receive Lifetime Pro Access to the full Health Passport suite — free, forever.</p>
+      <div class="waitlist-form">
+        <input type="email" placeholder="Enter your email address" id="emailInput">
+        <button class="btn-primary" onclick="handleWaitlist()">Claim My Spot</button>
+      </div>
+      <p class="waitlist-note">Launching <strong>Q2 2026</strong> · No spam · Unsubscribe anytime · <strong>⚡ 500 Lifetime Pro spots</strong> remaining</p>
+    </div>
+  </div>
+</section>
+ 
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">Prevent<span>ID</span></div>
+      <p class="footer-tagline">India's verified health identity layer. Your history, always with you.</p>
+    </div>
+    <div class="footer-links">
+      <h4>Product</h4>
+      <ul><li><a href="#features">Features</a></li><li><a href="#howitworks">How It Works</a></li><li><a href="#waitlist">Early Access</a></li></ul>
+    </div>
+    <div class="footer-links">
+      <h4>Compliance</h4>
+      <ul><li><a href="#">DPDPA 2023</a></li><li><a href="#">ABDM Integration</a></li><li><a href="#">Privacy Policy</a></li></ul>
+    </div>
+    <div class="footer-links">
+      <h4>Company</h4>
+      <ul><li><a href="#">About</a></li><li><a href="#">Blog</a></li><li><a href="#">Contact</a></li></ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 PreventID. All rights reserved.</p>
+    <span class="mono">ABDM · DPDPA · ICMR · Built for India</span>
+  </div>
+</footer>
+ 
+<script>
+const reveals = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, {threshold: 0.1});
+reveals.forEach(el => obs.observe(el));
+ 
+function handleWaitlist() {
+  const input = document.getElementById('emailInput');
+  if (!input.value.trim() || !input.value.includes('@')) {
+    input.style.borderColor = 'var(--coral)';
+    setTimeout(() => input.style.borderColor = 'var(--border)', 1500);
+    return;
+  }
+  const btn = document.querySelector('.cta-wrap .btn-primary');
+  btn.textContent = '🎉 You\'re on the list!';
+  btn.style.background = 'var(--jade-dark)';
+  btn.disabled = true;
+  input.value = '';
+  input.placeholder = 'Welcome to PreventID early access!';
+}
+ 
+window.addEventListener('scroll', () => {
+  document.querySelector('nav').style.borderBottomColor =
+    window.scrollY > 40 ? 'rgba(0,200,150,.18)' : 'var(--border)';
+});
+</script>
 </body>
 </html>
+ 
